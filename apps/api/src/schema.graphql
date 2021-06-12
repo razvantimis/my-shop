@@ -109,6 +109,7 @@ input UsersCreateInput {
 type Product {
   id: ID!
   name: String
+  img: String
   description: String
   price: Int
 }
@@ -142,6 +143,24 @@ input ProductWhereInput {
   name_not_ends_with_i: String
   name_in: [String]
   name_not_in: [String]
+  img: String
+  img_not: String
+  img_contains: String
+  img_not_contains: String
+  img_starts_with: String
+  img_not_starts_with: String
+  img_ends_with: String
+  img_not_ends_with: String
+  img_i: String
+  img_not_i: String
+  img_contains_i: String
+  img_not_contains_i: String
+  img_starts_with_i: String
+  img_not_starts_with_i: String
+  img_ends_with_i: String
+  img_not_ends_with_i: String
+  img_in: [String]
+  img_not_in: [String]
   description: String
   description_not: String
   description_contains: String
@@ -179,6 +198,8 @@ enum SortProductsBy {
   id_DESC
   name_ASC
   name_DESC
+  img_ASC
+  img_DESC
   description_ASC
   description_DESC
   price_ASC
@@ -188,12 +209,14 @@ enum SortProductsBy {
 input ProductOrderByInput {
   id: OrderDirection
   name: OrderDirection
+  img: OrderDirection
   description: OrderDirection
   price: OrderDirection
 }
 
 input ProductUpdateInput {
   name: String
+  img: String
   description: String
   price: Int
 }
@@ -205,6 +228,7 @@ input ProductsUpdateInput {
 
 input ProductCreateInput {
   name: String
+  img: String
   description: String
   price: Int
 }

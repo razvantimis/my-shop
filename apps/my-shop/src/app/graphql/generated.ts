@@ -5,7 +5,7 @@ export type Maybe<T> = T | null;
 export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
 export type MakeOptional<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]?: Maybe<T[SubKey]> };
 export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]: Maybe<T[SubKey]> };
-const defaultOptions = {}
+const defaultOptions =  {}
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
   ID: string;
@@ -248,12 +248,14 @@ export type Product = {
   __typename?: 'Product';
   id: Scalars['ID'];
   name?: Maybe<Scalars['String']>;
+  img?: Maybe<Scalars['String']>;
   description?: Maybe<Scalars['String']>;
   price?: Maybe<Scalars['Int']>;
 };
 
 export type ProductCreateInput = {
   name?: Maybe<Scalars['String']>;
+  img?: Maybe<Scalars['String']>;
   description?: Maybe<Scalars['String']>;
   price?: Maybe<Scalars['Int']>;
 };
@@ -261,12 +263,14 @@ export type ProductCreateInput = {
 export type ProductOrderByInput = {
   id?: Maybe<OrderDirection>;
   name?: Maybe<OrderDirection>;
+  img?: Maybe<OrderDirection>;
   description?: Maybe<OrderDirection>;
   price?: Maybe<OrderDirection>;
 };
 
 export type ProductUpdateInput = {
   name?: Maybe<Scalars['String']>;
+  img?: Maybe<Scalars['String']>;
   description?: Maybe<Scalars['String']>;
   price?: Maybe<Scalars['Int']>;
 };
@@ -300,6 +304,24 @@ export type ProductWhereInput = {
   name_not_ends_with_i?: Maybe<Scalars['String']>;
   name_in?: Maybe<Array<Maybe<Scalars['String']>>>;
   name_not_in?: Maybe<Array<Maybe<Scalars['String']>>>;
+  img?: Maybe<Scalars['String']>;
+  img_not?: Maybe<Scalars['String']>;
+  img_contains?: Maybe<Scalars['String']>;
+  img_not_contains?: Maybe<Scalars['String']>;
+  img_starts_with?: Maybe<Scalars['String']>;
+  img_not_starts_with?: Maybe<Scalars['String']>;
+  img_ends_with?: Maybe<Scalars['String']>;
+  img_not_ends_with?: Maybe<Scalars['String']>;
+  img_i?: Maybe<Scalars['String']>;
+  img_not_i?: Maybe<Scalars['String']>;
+  img_contains_i?: Maybe<Scalars['String']>;
+  img_not_contains_i?: Maybe<Scalars['String']>;
+  img_starts_with_i?: Maybe<Scalars['String']>;
+  img_not_starts_with_i?: Maybe<Scalars['String']>;
+  img_ends_with_i?: Maybe<Scalars['String']>;
+  img_not_ends_with_i?: Maybe<Scalars['String']>;
+  img_in?: Maybe<Array<Maybe<Scalars['String']>>>;
+  img_not_in?: Maybe<Array<Maybe<Scalars['String']>>>;
   description?: Maybe<Scalars['String']>;
   description_not?: Maybe<Scalars['String']>;
   description_contains?: Maybe<Scalars['String']>;
@@ -428,6 +450,8 @@ export enum SortProductsBy {
   IdDesc = 'id_DESC',
   NameAsc = 'name_ASC',
   NameDesc = 'name_DESC',
+  ImgAsc = 'img_ASC',
+  ImgDesc = 'img_DESC',
   DescriptionAsc = 'description_ASC',
   DescriptionDesc = 'description_DESC',
   PriceAsc = 'price_ASC',
@@ -561,12 +585,10 @@ export type AllProductsQueryQueryVariables = Exact<{
 
 export type AllProductsQueryQuery = (
   { __typename?: 'Query' }
-  & {
-    allProducts?: Maybe<Array<(
-      { __typename?: 'Product' }
-      & Pick<Product, 'id' | 'name' | 'price' | 'description'>
-    )>>
-  }
+  & { allProducts?: Maybe<Array<(
+    { __typename?: 'Product' }
+    & Pick<Product, 'id' | 'name' | 'price' | 'img' | 'description'>
+  )>> }
 );
 
 
@@ -576,22 +598,23 @@ export const AllProductsQueryDocument = gql`
     id
     name
     price
+    img
     description
   }
 }
     `;
 export type AllProductsQueryProps<TChildProps = {}, TDataName extends string = 'data'> = {
-  [key in TDataName]: ApolloReactHoc.DataValue<AllProductsQueryQuery, AllProductsQueryQueryVariables>
-} & TChildProps;
+      [key in TDataName]: ApolloReactHoc.DataValue<AllProductsQueryQuery, AllProductsQueryQueryVariables>
+    } & TChildProps;
 export function withAllProductsQuery<TProps, TChildProps = {}, TDataName extends string = 'data'>(operationOptions?: ApolloReactHoc.OperationOption<
   TProps,
   AllProductsQueryQuery,
   AllProductsQueryQueryVariables,
   AllProductsQueryProps<TChildProps, TDataName>>) {
-  return ApolloReactHoc.withQuery<TProps, AllProductsQueryQuery, AllProductsQueryQueryVariables, AllProductsQueryProps<TChildProps, TDataName>>(AllProductsQueryDocument, {
-    alias: 'allProductsQuery',
-    ...operationOptions
-  });
+    return ApolloReactHoc.withQuery<TProps, AllProductsQueryQuery, AllProductsQueryQueryVariables, AllProductsQueryProps<TChildProps, TDataName>>(AllProductsQueryDocument, {
+      alias: 'allProductsQuery',
+      ...operationOptions
+    });
 };
 
 /**
@@ -612,13 +635,13 @@ export function withAllProductsQuery<TProps, TChildProps = {}, TDataName extends
  * });
  */
 export function useAllProductsQueryQuery(baseOptions?: Apollo.QueryHookOptions<AllProductsQueryQuery, AllProductsQueryQueryVariables>) {
-  const options = { ...defaultOptions, ...baseOptions }
-  return Apollo.useQuery<AllProductsQueryQuery, AllProductsQueryQueryVariables>(AllProductsQueryDocument, options);
-}
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<AllProductsQueryQuery, AllProductsQueryQueryVariables>(AllProductsQueryDocument, options);
+      }
 export function useAllProductsQueryLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<AllProductsQueryQuery, AllProductsQueryQueryVariables>) {
-  const options = { ...defaultOptions, ...baseOptions }
-  return Apollo.useLazyQuery<AllProductsQueryQuery, AllProductsQueryQueryVariables>(AllProductsQueryDocument, options);
-}
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<AllProductsQueryQuery, AllProductsQueryQueryVariables>(AllProductsQueryDocument, options);
+        }
 export type AllProductsQueryQueryHookResult = ReturnType<typeof useAllProductsQueryQuery>;
 export type AllProductsQueryLazyQueryHookResult = ReturnType<typeof useAllProductsQueryLazyQuery>;
 export type AllProductsQueryQueryResult = Apollo.QueryResult<AllProductsQueryQuery, AllProductsQueryQueryVariables>;

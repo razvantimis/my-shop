@@ -3,6 +3,7 @@ query AllProductsQuery($skip: Int = 0, $first: Int) {
     id
     name
     price
+    img
     description
   }
 }

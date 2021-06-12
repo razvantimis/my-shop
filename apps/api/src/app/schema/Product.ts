@@ -4,12 +4,13 @@ import { list } from '@keystone-next/keystone/schema';
 const Product = list({
   fields: {
     name: text({ isRequired: true }),
+    img: text({ isRequired: true }),
     description: text({
       ui: {
         displayMode: 'textarea',
       },
     }),
-    price: integer(),
+    price: integer({ isRequired: true }),
   },
 });
 
