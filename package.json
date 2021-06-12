@@ -24,10 +24,11 @@
     "workspace-generator": "nx workspace-generator",
     "dep-graph": "nx dep-graph",
     "help": "nx help",
-    "server:dev": "cd ./apps/api/src && keystone-next dev",
     "server:start": "cd ./apps/api && keystone-next start",
     "server:build": "cd ./apps/api/src && keystone-next build",
-    "generate": "graphql-codegen"
+    "generate": "graphql-codegen",
+    "start-be": "cd ./apps/api/src && keystone-next dev",
+    "start-fe": "nx run my-shop:serve"
   },
   "private": true,
   "dependencies": {
