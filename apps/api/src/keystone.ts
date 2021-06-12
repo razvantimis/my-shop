@@ -1,9 +1,8 @@
 import { config } from '@keystone-next/keystone/schema';
 import { statelessSessions } from '@keystone-next/keystone/session';
 import { createAuth } from '@keystone-next/auth';
-
 import { lists } from './app/schema';
-
+import extendGraphqlSchema from './app/mutation';
 let sessionSecret = process.env.SESSION_SECRET;
 
 if (!sessionSecret) {
@@ -40,8 +39,9 @@ export default withAuth(
       url: process.env.DATABASE_URL || 'postgres://alljxbmajmuhoz:2cc78ba5cbf03a67cc825e1811f61cc68ec71d10d208d33d2a92b238bc7c55b2@ec2-99-80-200-225.eu-west-1.compute.amazonaws.com:5432/d1vl7hvuhksspe',
     },
     ui: {
-      isAccessAllowed: (context) => !!context.session.data,
+      isAccessAllowed: (context) => !!(context.session && context.session.data),
     },
+    extendGraphqlSchema,
     lists,
     session,
   })

@@ -4,6 +4,17 @@ query CurrentUser {
       id
       email
       name
+      cart {
+        id
+        quantity
+        product {
+          id
+          price
+          name
+          description
+          img
+        }
+      }
     }
   }
 }

@@ -21,6 +21,77 @@ export type Scalars = {
 
 export type AuthenticatedItem = User;
 
+/**  A keystone list  */
+export type CartItem = {
+  __typename?: 'CartItem';
+  id: Scalars['ID'];
+  quantity?: Maybe<Scalars['Int']>;
+  product?: Maybe<Product>;
+  user?: Maybe<User>;
+};
+
+export type CartItemCreateInput = {
+  quantity?: Maybe<Scalars['Int']>;
+  product?: Maybe<ProductRelateToOneInput>;
+  user?: Maybe<UserRelateToOneInput>;
+};
+
+export type CartItemOrderByInput = {
+  id?: Maybe<OrderDirection>;
+  quantity?: Maybe<OrderDirection>;
+};
+
+export type CartItemRelateToManyInput = {
+  create?: Maybe<Array<Maybe<CartItemCreateInput>>>;
+  connect?: Maybe<Array<Maybe<CartItemWhereUniqueInput>>>;
+  disconnect?: Maybe<Array<Maybe<CartItemWhereUniqueInput>>>;
+  disconnectAll?: Maybe<Scalars['Boolean']>;
+};
+
+export type CartItemUpdateInput = {
+  quantity?: Maybe<Scalars['Int']>;
+  product?: Maybe<ProductRelateToOneInput>;
+  user?: Maybe<UserRelateToOneInput>;
+};
+
+export type CartItemWhereInput = {
+  AND?: Maybe<Array<CartItemWhereInput>>;
+  OR?: Maybe<Array<CartItemWhereInput>>;
+  id?: Maybe<Scalars['ID']>;
+  id_not?: Maybe<Scalars['ID']>;
+  id_lt?: Maybe<Scalars['ID']>;
+  id_lte?: Maybe<Scalars['ID']>;
+  id_gt?: Maybe<Scalars['ID']>;
+  id_gte?: Maybe<Scalars['ID']>;
+  id_in?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  id_not_in?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  quantity?: Maybe<Scalars['Int']>;
+  quantity_not?: Maybe<Scalars['Int']>;
+  quantity_lt?: Maybe<Scalars['Int']>;
+  quantity_lte?: Maybe<Scalars['Int']>;
+  quantity_gt?: Maybe<Scalars['Int']>;
+  quantity_gte?: Maybe<Scalars['Int']>;
+  quantity_in?: Maybe<Array<Maybe<Scalars['Int']>>>;
+  quantity_not_in?: Maybe<Array<Maybe<Scalars['Int']>>>;
+  product?: Maybe<ProductWhereInput>;
+  product_is_null?: Maybe<Scalars['Boolean']>;
+  user?: Maybe<UserWhereInput>;
+  user_is_null?: Maybe<Scalars['Boolean']>;
+};
+
+export type CartItemWhereUniqueInput = {
+  id: Scalars['ID'];
+};
+
+export type CartItemsCreateInput = {
+  data?: Maybe<CartItemCreateInput>;
+};
+
+export type CartItemsUpdateInput = {
+  id: Scalars['ID'];
+  data?: Maybe<CartItemUpdateInput>;
+};
+
 export type CreateInitialUserInput = {
   name?: Maybe<Scalars['String']>;
   email?: Maybe<Scalars['String']>;
@@ -152,8 +223,21 @@ export type Mutation = {
   deleteProduct?: Maybe<Product>;
   /**  Delete multiple Product items by ID.  */
   deleteProducts?: Maybe<Array<Maybe<Product>>>;
+  /**  Create a single CartItem item.  */
+  createCartItem?: Maybe<CartItem>;
+  /**  Create multiple CartItem items.  */
+  createCartItems?: Maybe<Array<Maybe<CartItem>>>;
+  /**  Update a single CartItem item by ID.  */
+  updateCartItem?: Maybe<CartItem>;
+  /**  Update multiple CartItem items by ID.  */
+  updateCartItems?: Maybe<Array<Maybe<CartItem>>>;
+  /**  Delete a single CartItem item by ID.  */
+  deleteCartItem?: Maybe<CartItem>;
+  /**  Delete multiple CartItem items by ID.  */
+  deleteCartItems?: Maybe<Array<Maybe<CartItem>>>;
   authenticateUserWithPassword: UserAuthenticationWithPasswordResult;
   createInitialUser: UserAuthenticationWithPasswordSuccess;
+  addToCart?: Maybe<CartItem>;
   endSession: Scalars['Boolean'];
 };
 
@@ -220,6 +304,37 @@ export type MutationDeleteProductsArgs = {
 };
 
 
+export type MutationCreateCartItemArgs = {
+  data?: Maybe<CartItemCreateInput>;
+};
+
+
+export type MutationCreateCartItemsArgs = {
+  data?: Maybe<Array<Maybe<CartItemsCreateInput>>>;
+};
+
+
+export type MutationUpdateCartItemArgs = {
+  id: Scalars['ID'];
+  data?: Maybe<CartItemUpdateInput>;
+};
+
+
+export type MutationUpdateCartItemsArgs = {
+  data?: Maybe<Array<Maybe<CartItemsUpdateInput>>>;
+};
+
+
+export type MutationDeleteCartItemArgs = {
+  id: Scalars['ID'];
+};
+
+
+export type MutationDeleteCartItemsArgs = {
+  ids?: Maybe<Array<Scalars['ID']>>;
+};
+
+
 export type MutationAuthenticateUserWithPasswordArgs = {
   email: Scalars['String'];
   password: Scalars['String'];
@@ -228,6 +343,11 @@ export type MutationAuthenticateUserWithPasswordArgs = {
 
 export type MutationCreateInitialUserArgs = {
   data: CreateInitialUserInput;
+};
+
+
+export type MutationAddToCartArgs = {
+  productId?: Maybe<Scalars['ID']>;
 };
 
 export enum OrderDirection {
@@ -266,6 +386,13 @@ export type ProductOrderByInput = {
   img?: Maybe<OrderDirection>;
   description?: Maybe<OrderDirection>;
   price?: Maybe<OrderDirection>;
+};
+
+export type ProductRelateToOneInput = {
+  create?: Maybe<ProductCreateInput>;
+  connect?: Maybe<ProductWhereUniqueInput>;
+  disconnect?: Maybe<ProductWhereUniqueInput>;
+  disconnectAll?: Maybe<Scalars['Boolean']>;
 };
 
 export type ProductUpdateInput = {
@@ -385,6 +512,16 @@ export type Query = {
    */
   _allProductsMeta?: Maybe<_QueryMeta>;
   productsCount?: Maybe<Scalars['Int']>;
+  /**  Search for all CartItem items which match the where clause.  */
+  allCartItems?: Maybe<Array<CartItem>>;
+  /**  Search for the CartItem item with the matching ID.  */
+  CartItem?: Maybe<CartItem>;
+  /**
+   *  Perform a meta-query on all CartItem items which match the where clause.
+   * @deprecated This query will be removed in a future version. Please use cartItemsCount instead.
+   */
+  _allCartItemsMeta?: Maybe<_QueryMeta>;
+  cartItemsCount?: Maybe<Scalars['Int']>;
   authenticatedItem?: Maybe<AuthenticatedItem>;
   keystone: KeystoneMeta;
 };
@@ -445,6 +582,41 @@ export type QueryProductsCountArgs = {
   where?: ProductWhereInput;
 };
 
+
+export type QueryAllCartItemsArgs = {
+  where?: CartItemWhereInput;
+  search?: Maybe<Scalars['String']>;
+  orderBy?: Array<CartItemOrderByInput>;
+  first?: Maybe<Scalars['Int']>;
+  skip?: Scalars['Int'];
+};
+
+
+export type QueryCartItemArgs = {
+  where: CartItemWhereUniqueInput;
+};
+
+
+export type Query_AllCartItemsMetaArgs = {
+  where?: CartItemWhereInput;
+  search?: Maybe<Scalars['String']>;
+  orderBy?: Array<CartItemOrderByInput>;
+  first?: Maybe<Scalars['Int']>;
+  skip?: Scalars['Int'];
+};
+
+
+export type QueryCartItemsCountArgs = {
+  where?: CartItemWhereInput;
+};
+
+export enum SortCartItemsBy {
+  IdAsc = 'id_ASC',
+  IdDesc = 'id_DESC',
+  QuantityAsc = 'quantity_ASC',
+  QuantityDesc = 'quantity_DESC'
+}
+
 export enum SortProductsBy {
   IdAsc = 'id_ASC',
   IdDesc = 'id_DESC',
@@ -475,6 +647,36 @@ export type User = {
   name?: Maybe<Scalars['String']>;
   email?: Maybe<Scalars['String']>;
   password_is_set?: Maybe<Scalars['Boolean']>;
+  cart: Array<CartItem>;
+  /** @deprecated This query will be removed in a future version. Please use cartCount instead. */
+  _cartMeta?: Maybe<_QueryMeta>;
+  cartCount?: Maybe<Scalars['Int']>;
+};
+
+
+/**  A keystone list  */
+export type UserCartArgs = {
+  where?: CartItemWhereInput;
+  search?: Maybe<Scalars['String']>;
+  orderBy?: Array<CartItemOrderByInput>;
+  first?: Maybe<Scalars['Int']>;
+  skip?: Scalars['Int'];
+};
+
+
+/**  A keystone list  */
+export type User_CartMetaArgs = {
+  where?: CartItemWhereInput;
+  search?: Maybe<Scalars['String']>;
+  orderBy?: Array<CartItemOrderByInput>;
+  first?: Maybe<Scalars['Int']>;
+  skip?: Scalars['Int'];
+};
+
+
+/**  A keystone list  */
+export type UserCartCountArgs = {
+  where?: CartItemWhereInput;
 };
 
 export type UserAuthenticationWithPasswordFailure = {
@@ -495,6 +697,7 @@ export type UserCreateInput = {
   name?: Maybe<Scalars['String']>;
   email?: Maybe<Scalars['String']>;
   password?: Maybe<Scalars['String']>;
+  cart?: Maybe<CartItemRelateToManyInput>;
 };
 
 export type UserOrderByInput = {
@@ -503,10 +706,18 @@ export type UserOrderByInput = {
   email?: Maybe<OrderDirection>;
 };
 
+export type UserRelateToOneInput = {
+  create?: Maybe<UserCreateInput>;
+  connect?: Maybe<UserWhereUniqueInput>;
+  disconnect?: Maybe<UserWhereUniqueInput>;
+  disconnectAll?: Maybe<Scalars['Boolean']>;
+};
+
 export type UserUpdateInput = {
   name?: Maybe<Scalars['String']>;
   email?: Maybe<Scalars['String']>;
   password?: Maybe<Scalars['String']>;
+  cart?: Maybe<CartItemRelateToManyInput>;
 };
 
 export type UserWhereInput = {
@@ -557,6 +768,12 @@ export type UserWhereInput = {
   email_in?: Maybe<Array<Maybe<Scalars['String']>>>;
   email_not_in?: Maybe<Array<Maybe<Scalars['String']>>>;
   password_is_set?: Maybe<Scalars['Boolean']>;
+  /**  condition must be true for all nodes  */
+  cart_every?: Maybe<CartItemWhereInput>;
+  /**  condition must be true for at least 1 node  */
+  cart_some?: Maybe<CartItemWhereInput>;
+  /**  condition must be false for all nodes  */
+  cart_none?: Maybe<CartItemWhereInput>;
 };
 
 export type UserWhereUniqueInput = {
@@ -576,6 +793,19 @@ export type _QueryMeta = {
   __typename?: '_QueryMeta';
   count?: Maybe<Scalars['Int']>;
 };
+
+export type AddToCartMutationVariables = Exact<{
+  id: Scalars['ID'];
+}>;
+
+
+export type AddToCartMutation = (
+  { __typename?: 'Mutation' }
+  & { addToCart?: Maybe<(
+    { __typename?: 'CartItem' }
+    & Pick<CartItem, 'id'>
+  )> }
+);
 
 export type SignInMutationVariables = Exact<{
   email: Scalars['String'];
@@ -627,10 +857,64 @@ export type CurrentUserQuery = (
   & { authenticatedItem?: Maybe<(
     { __typename?: 'User' }
     & Pick<User, 'id' | 'email' | 'name'>
+    & { cart: Array<(
+      { __typename?: 'CartItem' }
+      & Pick<CartItem, 'id' | 'quantity'>
+      & { product?: Maybe<(
+        { __typename?: 'Product' }
+        & Pick<Product, 'id' | 'price' | 'name' | 'description' | 'img'>
+      )> }
+    )> }
   )> }
 );
 
 
+export const AddToCartDocument = gql`
+    mutation AddToCart($id: ID!) {
+  addToCart(productId: $id) {
+    id
+  }
+}
+    `;
+export type AddToCartMutationFn = Apollo.MutationFunction<AddToCartMutation, AddToCartMutationVariables>;
+export type AddToCartProps<TChildProps = {}, TDataName extends string = 'mutate'> = {
+      [key in TDataName]: Apollo.MutationFunction<AddToCartMutation, AddToCartMutationVariables>
+    } & TChildProps;
+export function withAddToCart<TProps, TChildProps = {}, TDataName extends string = 'mutate'>(operationOptions?: ApolloReactHoc.OperationOption<
+  TProps,
+  AddToCartMutation,
+  AddToCartMutationVariables,
+  AddToCartProps<TChildProps, TDataName>>) {
+    return ApolloReactHoc.withMutation<TProps, AddToCartMutation, AddToCartMutationVariables, AddToCartProps<TChildProps, TDataName>>(AddToCartDocument, {
+      alias: 'addToCart',
+      ...operationOptions
+    });
+};
+
+/**
+ * __useAddToCartMutation__
+ *
+ * To run a mutation, you first call `useAddToCartMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useAddToCartMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [addToCartMutation, { data, loading, error }] = useAddToCartMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useAddToCartMutation(baseOptions?: Apollo.MutationHookOptions<AddToCartMutation, AddToCartMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<AddToCartMutation, AddToCartMutationVariables>(AddToCartDocument, options);
+      }
+export type AddToCartMutationHookResult = ReturnType<typeof useAddToCartMutation>;
+export type AddToCartMutationResult = Apollo.MutationResult<AddToCartMutation>;
+export type AddToCartMutationOptions = Apollo.BaseMutationOptions<AddToCartMutation, AddToCartMutationVariables>;
 export const SignInDocument = gql`
     mutation SignIn($email: String!, $password: String!) {
   authenticateUserWithPassword(email: $email, password: $password) {
@@ -791,6 +1075,17 @@ export const CurrentUserDocument = gql`
       id
       email
       name
+      cart {
+        id
+        quantity
+        product {
+          id
+          price
+          name
+          description
+          img
+        }
+      }
     }
   }
 }

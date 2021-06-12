@@ -1,13 +1,15 @@
 import React, { FC } from "react";
 import type { Product } from '../../../graphql/generated';
 import formatMoney from "../../../utils/formatMoney";
+import AddToCartButton from "../AddToCartButton";
 import { Price, ProductStyles, Title } from "./ProductItem.style";
 
 type Props = {
-  product: Product
+  product: Product;
+  isAuth: boolean;
 }
 
-const ProductItem: FC<Props> = ({ product }) => (
+const ProductItem: FC<Props> = ({ product, isAuth }) => (
   <ProductStyles>
     <img
       src={product.img ?? ''}
@@ -18,6 +20,7 @@ const ProductItem: FC<Props> = ({ product }) => (
     </Title>
     <Price>{formatMoney(product.price ?? 0)}</Price>
     <p>{product.description}</p>
+    {isAuth && <AddToCartButton id={product.id} />}
   </ProductStyles>
 )
 export default ProductItem;
