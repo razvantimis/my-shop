@@ -1,0 +1,4 @@
+
+src/.keystone/admin
+*.log
+src/node_modules
