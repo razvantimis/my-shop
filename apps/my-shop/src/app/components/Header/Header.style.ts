@@ -5,6 +5,7 @@ export const HeaderStyles = styled.header`
   display: flex;
   width: 100%;
   align-items: center;
+  margin-bottom: 50px;
   nav {
     flex: 1;
   }

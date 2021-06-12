@@ -13,13 +13,6 @@ import HomePage from './pages/HomePage';
 import LoginPage from './pages/LoginPage';
 
 export const App = () => {
-
-  // useEffect(() => {
-  //   fetch('/api')
-  //     .then((r) => r.json())
-  //     .then(setMessage);
-  // }, []);
-
   return (
     <Router>
       <Layout>
