@@ -7,6 +7,7 @@ import {
 } from "react-router-dom";
 import Header from "./components/Header";
 import Layout from "./components/Layout";
+import PrivateRoute from "./components/PrivateRoute";
 import CartPage from './pages/CartPage';
 import HomePage from './pages/HomePage';
 import LoginPage from './pages/LoginPage';
@@ -24,9 +25,7 @@ export const App = () => {
       <Layout>
         <Header />
         <Switch>
-          <Route path="/cart">
-            <CartPage />
-          </Route>
+          <PrivateRoute path="/cart" component={CartPage} />
           <Route path="/login">
             <LoginPage />
           </Route>

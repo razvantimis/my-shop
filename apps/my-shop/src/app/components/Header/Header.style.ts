@@ -31,7 +31,7 @@ export const UlStyles = styled.ul`
   font-size: 2rem;
   list-style: none;
   justify-content: flex-end;
-  a {
+  a,button {
     padding: 1rem 3rem;
     text-transform: uppercase;
     font-size: 1em;

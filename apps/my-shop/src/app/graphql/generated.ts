@@ -577,13 +577,41 @@ export type _QueryMeta = {
   count?: Maybe<Scalars['Int']>;
 };
 
-export type AllProductsQueryQueryVariables = Exact<{
+export type SignInMutationVariables = Exact<{
+  email: Scalars['String'];
+  password: Scalars['String'];
+}>;
+
+
+export type SignInMutation = (
+  { __typename?: 'Mutation' }
+  & { authenticateUserWithPassword: (
+    { __typename?: 'UserAuthenticationWithPasswordSuccess' }
+    & { item: (
+      { __typename?: 'User' }
+      & Pick<User, 'id' | 'email' | 'name'>
+    ) }
+  ) | (
+    { __typename?: 'UserAuthenticationWithPasswordFailure' }
+    & Pick<UserAuthenticationWithPasswordFailure, 'code' | 'message'>
+  ) }
+);
+
+export type SignOutMutationVariables = Exact<{ [key: string]: never; }>;
+
+
+export type SignOutMutation = (
+  { __typename?: 'Mutation' }
+  & Pick<Mutation, 'endSession'>
+);
+
+export type AllProductsQueryVariables = Exact<{
   skip?: Maybe<Scalars['Int']>;
   first?: Maybe<Scalars['Int']>;
 }>;
 
 
-export type AllProductsQueryQuery = (
+export type AllProductsQuery = (
   { __typename?: 'Query' }
   & { allProducts?: Maybe<Array<(
     { __typename?: 'Product' }
@@ -591,9 +619,120 @@ export type AllProductsQueryQuery = (
   )>> }
 );
 
+export type CurrentUserQueryVariables = Exact<{ [key: string]: never; }>;
 
-export const AllProductsQueryDocument = gql`
-    query AllProductsQuery($skip: Int = 0, $first: Int) {
+
+export type CurrentUserQuery = (
+  { __typename?: 'Query' }
+  & { authenticatedItem?: Maybe<(
+    { __typename?: 'User' }
+    & Pick<User, 'id' | 'email' | 'name'>
+  )> }
+);
+
+
+export const SignInDocument = gql`
+    mutation SignIn($email: String!, $password: String!) {
+  authenticateUserWithPassword(email: $email, password: $password) {
+    ... on UserAuthenticationWithPasswordSuccess {
+      item {
+        id
+        email
+        name
+      }
+    }
+    ... on UserAuthenticationWithPasswordFailure {
+      code
+      message
+    }
+  }
+}
+    `;
+export type SignInMutationFn = Apollo.MutationFunction<SignInMutation, SignInMutationVariables>;
+export type SignInProps<TChildProps = {}, TDataName extends string = 'mutate'> = {
+      [key in TDataName]: Apollo.MutationFunction<SignInMutation, SignInMutationVariables>
+    } & TChildProps;
+export function withSignIn<TProps, TChildProps = {}, TDataName extends string = 'mutate'>(operationOptions?: ApolloReactHoc.OperationOption<
+  TProps,
+  SignInMutation,
+  SignInMutationVariables,
+  SignInProps<TChildProps, TDataName>>) {
+    return ApolloReactHoc.withMutation<TProps, SignInMutation, SignInMutationVariables, SignInProps<TChildProps, TDataName>>(SignInDocument, {
+      alias: 'signIn',
+      ...operationOptions
+    });
+};
+
+/**
+ * __useSignInMutation__
+ *
+ * To run a mutation, you first call `useSignInMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useSignInMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [signInMutation, { data, loading, error }] = useSignInMutation({
+ *   variables: {
+ *      email: // value for 'email'
+ *      password: // value for 'password'
+ *   },
+ * });
+ */
+export function useSignInMutation(baseOptions?: Apollo.MutationHookOptions<SignInMutation, SignInMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<SignInMutation, SignInMutationVariables>(SignInDocument, options);
+      }
+export type SignInMutationHookResult = ReturnType<typeof useSignInMutation>;
+export type SignInMutationResult = Apollo.MutationResult<SignInMutation>;
+export type SignInMutationOptions = Apollo.BaseMutationOptions<SignInMutation, SignInMutationVariables>;
+export const SignOutDocument = gql`
+    mutation SignOut {
+  endSession
+}
+    `;
+export type SignOutMutationFn = Apollo.MutationFunction<SignOutMutation, SignOutMutationVariables>;
+export type SignOutProps<TChildProps = {}, TDataName extends string = 'mutate'> = {
+      [key in TDataName]: Apollo.MutationFunction<SignOutMutation, SignOutMutationVariables>
+    } & TChildProps;
+export function withSignOut<TProps, TChildProps = {}, TDataName extends string = 'mutate'>(operationOptions?: ApolloReactHoc.OperationOption<
+  TProps,
+  SignOutMutation,
+  SignOutMutationVariables,
+  SignOutProps<TChildProps, TDataName>>) {
+    return ApolloReactHoc.withMutation<TProps, SignOutMutation, SignOutMutationVariables, SignOutProps<TChildProps, TDataName>>(SignOutDocument, {
+      alias: 'signOut',
+      ...operationOptions
+    });
+};
+
+/**
+ * __useSignOutMutation__
+ *
+ * To run a mutation, you first call `useSignOutMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useSignOutMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [signOutMutation, { data, loading, error }] = useSignOutMutation({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useSignOutMutation(baseOptions?: Apollo.MutationHookOptions<SignOutMutation, SignOutMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<SignOutMutation, SignOutMutationVariables>(SignOutDocument, options);
+      }
+export type SignOutMutationHookResult = ReturnType<typeof useSignOutMutation>;
+export type SignOutMutationResult = Apollo.MutationResult<SignOutMutation>;
+export type SignOutMutationOptions = Apollo.BaseMutationOptions<SignOutMutation, SignOutMutationVariables>;
+export const AllProductsDocument = gql`
+    query AllProducts($skip: Int = 0, $first: Int) {
   allProducts(first: $first, skip: $skip) {
     id
     name
@@ -603,45 +742,96 @@ export const AllProductsQueryDocument = gql`
   }
 }
     `;
-export type AllProductsQueryProps<TChildProps = {}, TDataName extends string = 'data'> = {
-      [key in TDataName]: ApolloReactHoc.DataValue<AllProductsQueryQuery, AllProductsQueryQueryVariables>
+export type AllProductsProps<TChildProps = {}, TDataName extends string = 'data'> = {
+      [key in TDataName]: ApolloReactHoc.DataValue<AllProductsQuery, AllProductsQueryVariables>
     } & TChildProps;
-export function withAllProductsQuery<TProps, TChildProps = {}, TDataName extends string = 'data'>(operationOptions?: ApolloReactHoc.OperationOption<
+export function withAllProducts<TProps, TChildProps = {}, TDataName extends string = 'data'>(operationOptions?: ApolloReactHoc.OperationOption<
   TProps,
-  AllProductsQueryQuery,
-  AllProductsQueryQueryVariables,
-  AllProductsQueryProps<TChildProps, TDataName>>) {
-    return ApolloReactHoc.withQuery<TProps, AllProductsQueryQuery, AllProductsQueryQueryVariables, AllProductsQueryProps<TChildProps, TDataName>>(AllProductsQueryDocument, {
-      alias: 'allProductsQuery',
+  AllProductsQuery,
+  AllProductsQueryVariables,
+  AllProductsProps<TChildProps, TDataName>>) {
+    return ApolloReactHoc.withQuery<TProps, AllProductsQuery, AllProductsQueryVariables, AllProductsProps<TChildProps, TDataName>>(AllProductsDocument, {
+      alias: 'allProducts',
       ...operationOptions
     });
 };
 
 /**
- * __useAllProductsQueryQuery__
+ * __useAllProductsQuery__
  *
- * To run a query within a React component, call `useAllProductsQueryQuery` and pass it any options that fit your needs.
- * When your component renders, `useAllProductsQueryQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * To run a query within a React component, call `useAllProductsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useAllProductsQuery` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const { data, loading, error } = useAllProductsQueryQuery({
+ * const { data, loading, error } = useAllProductsQuery({
  *   variables: {
  *      skip: // value for 'skip'
  *      first: // value for 'first'
  *   },
  * });
  */
-export function useAllProductsQueryQuery(baseOptions?: Apollo.QueryHookOptions<AllProductsQueryQuery, AllProductsQueryQueryVariables>) {
+export function useAllProductsQuery(baseOptions?: Apollo.QueryHookOptions<AllProductsQuery, AllProductsQueryVariables>) {
         const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<AllProductsQueryQuery, AllProductsQueryQueryVariables>(AllProductsQueryDocument, options);
+        return Apollo.useQuery<AllProductsQuery, AllProductsQueryVariables>(AllProductsDocument, options);
       }
-export function useAllProductsQueryLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<AllProductsQueryQuery, AllProductsQueryQueryVariables>) {
+export function useAllProductsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<AllProductsQuery, AllProductsQueryVariables>) {
           const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<AllProductsQueryQuery, AllProductsQueryQueryVariables>(AllProductsQueryDocument, options);
+          return Apollo.useLazyQuery<AllProductsQuery, AllProductsQueryVariables>(AllProductsDocument, options);
         }
-export type AllProductsQueryQueryHookResult = ReturnType<typeof useAllProductsQueryQuery>;
-export type AllProductsQueryLazyQueryHookResult = ReturnType<typeof useAllProductsQueryLazyQuery>;
-export type AllProductsQueryQueryResult = Apollo.QueryResult<AllProductsQueryQuery, AllProductsQueryQueryVariables>;
+export type AllProductsQueryHookResult = ReturnType<typeof useAllProductsQuery>;
+export type AllProductsLazyQueryHookResult = ReturnType<typeof useAllProductsLazyQuery>;
+export type AllProductsQueryResult = Apollo.QueryResult<AllProductsQuery, AllProductsQueryVariables>;
+export const CurrentUserDocument = gql`
+    query CurrentUser {
+  authenticatedItem {
+    ... on User {
+      id
+      email
+      name
+    }
+  }
+}
+    `;
+export type CurrentUserProps<TChildProps = {}, TDataName extends string = 'data'> = {
+      [key in TDataName]: ApolloReactHoc.DataValue<CurrentUserQuery, CurrentUserQueryVariables>
+    } & TChildProps;
+export function withCurrentUser<TProps, TChildProps = {}, TDataName extends string = 'data'>(operationOptions?: ApolloReactHoc.OperationOption<
+  TProps,
+  CurrentUserQuery,
+  CurrentUserQueryVariables,
+  CurrentUserProps<TChildProps, TDataName>>) {
+    return ApolloReactHoc.withQuery<TProps, CurrentUserQuery, CurrentUserQueryVariables, CurrentUserProps<TChildProps, TDataName>>(CurrentUserDocument, {
+      alias: 'currentUser',
+      ...operationOptions
+    });
+};
+
+/**
+ * __useCurrentUserQuery__
+ *
+ * To run a query within a React component, call `useCurrentUserQuery` and pass it any options that fit your needs.
+ * When your component renders, `useCurrentUserQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useCurrentUserQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useCurrentUserQuery(baseOptions?: Apollo.QueryHookOptions<CurrentUserQuery, CurrentUserQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<CurrentUserQuery, CurrentUserQueryVariables>(CurrentUserDocument, options);
+      }
+export function useCurrentUserLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<CurrentUserQuery, CurrentUserQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<CurrentUserQuery, CurrentUserQueryVariables>(CurrentUserDocument, options);
+        }
+export type CurrentUserQueryHookResult = ReturnType<typeof useCurrentUserQuery>;
+export type CurrentUserLazyQueryHookResult = ReturnType<typeof useCurrentUserLazyQuery>;
+export type CurrentUserQueryResult = Apollo.QueryResult<CurrentUserQuery, CurrentUserQueryVariables>;
