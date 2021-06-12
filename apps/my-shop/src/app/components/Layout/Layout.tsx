@@ -1,9 +1,10 @@
-import { FC } from "react";
-import { PageLayout } from "./Layout.style";
+import React, { FC } from "react";
+import { GlobalStyles, InnerStyles, PageLayout } from "./Layout.style";
 
 const Layout: FC = ({ children }) => (
   <PageLayout>
-    {children}
+    <GlobalStyles />
+    <InnerStyles>{children}</InnerStyles>
   </PageLayout>
 )
 
