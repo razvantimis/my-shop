@@ -1,27 +1,40 @@
-import React, { useEffect, useState } from 'react';
-import { Message } from '@my-shop/api-interfaces';
+import React from "react";
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+} from "react-router-dom";
+import Header from "./components/Header";
+import Layout from "./components/Layout";
+import CartPage from './pages/CartPage';
+import HomePage from './pages/HomePage';
+import LoginPage from './pages/LoginPage';
 
 export const App = () => {
-  const [m, setMessage] = useState<Message>({ message: '' });
 
-  useEffect(() => {
-    fetch('/api')
-      .then((r) => r.json())
-      .then(setMessage);
-  }, []);
+  // useEffect(() => {
+  //   fetch('/api')
+  //     .then((r) => r.json())
+  //     .then(setMessage);
+  // }, []);
 
   return (
-    <>
-      <div style={{ textAlign: 'center' }}>
-        <h1>Welcome to my-shop!</h1>
-        <img
-          width="450"
-          src="https://raw.githubusercontent.com/nrwl/nx/master/images/nx-logo.png"
-          alt="Nx - Smart, Extensible Build Framework"
-        />
-      </div>
-      <div>{m.message}</div>
-    </>
+    <Router>
+      <Layout>
+        <Header />
+        <Switch>
+          <Route path="/cart">
+            <CartPage />
+          </Route>
+          <Route path="/login">
+            <LoginPage />
+          </Route>
+          <Route path="/">
+            <HomePage />
+          </Route>
+        </Switch>
+      </Layout>
+    </Router>
   );
 };
 
