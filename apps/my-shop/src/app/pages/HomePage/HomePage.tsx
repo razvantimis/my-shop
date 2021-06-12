@@ -1,5 +1,5 @@
 import React, { FC } from "react";
-import Layout from "../../components/Layout";
+import ProductList from "./ProductList";
 
 
 
@@ -7,7 +7,10 @@ const HomePage: FC = () => {
 
 
   return (
-    <div>home</div>
+    <div>home
+
+      <ProductList />
+    </div>
   )
 }
 

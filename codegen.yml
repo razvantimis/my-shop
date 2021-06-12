@@ -1,0 +1,10 @@
+schema: http://localhost:3000/api/graphql
+documents: './apps/my-shop/src/app/graphql/**/*.gql'
+generates:
+  ./apps/my-shop/src/app/graphql/generated.ts:
+    plugins:
+      - typescript
+      - typescript-operations
+      - typescript-react-apollo
+    config:
+      withHOC: true
