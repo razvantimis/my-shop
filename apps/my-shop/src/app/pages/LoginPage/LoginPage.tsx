@@ -1,5 +1,6 @@
 import React, { FC, useState } from "react";
 import { useHistory } from "react-router";
+import RedButton from "../../components/style/RedButton.style";
 import { CurrentUserDocument, useSignInMutation } from "../../graphql/generated";
 import { Form } from "./LoginPage.style";
 
@@ -60,7 +61,7 @@ const LoginPage: FC = () => {
             onChange={(e) => setPassword(e.target.value)}
           />
         </label>
-        <button type="submit">Sign In!</button>
+        <RedButton type="submit">Sign In!</RedButton>
       </fieldset>
     </Form>
   )

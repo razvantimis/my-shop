@@ -1,7 +1,6 @@
 import styled from "styled-components";
 
-
-export const ButtonStyle = styled.button`
+const RedButton = styled.button`
    background-color: var(--red);
    color: white;
    font-size: 2rem;
@@ -11,5 +10,11 @@ export const ButtonStyle = styled.button`
    border: 1px solid var(--black);
    width: 200px;
    align-self: center;
-   margin-bottom: 20px;;
+   margin-bottom: 20px;
+
+  &:hover,&:active {
+    border: 1px solid grey;
+    background-color: var(--red-light)
+  }
 `
+export default RedButton;

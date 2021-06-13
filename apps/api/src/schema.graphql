@@ -479,6 +479,7 @@ type Mutation {
     data: CreateInitialUserInput!
   ): UserAuthenticationWithPasswordSuccess!
   addToCart(productId: ID): CartItem
+  checkout: Boolean
   endSession: Boolean!
 }
 

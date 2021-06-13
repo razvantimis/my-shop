@@ -16,7 +16,8 @@ export const InnerStyles = styled.div`
 export const GlobalStyles = createGlobalStyle`
   :root {
     --black: black;
-    --red: red;
+    --red: #b80000;
+    --red-light: #ff3434;
     --maxWidth: 1000px;
     --product-shadow: 0 12px 24px 0 rgba(0,0,0,0.09);
   }

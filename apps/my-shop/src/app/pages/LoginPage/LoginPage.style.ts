@@ -26,7 +26,6 @@ export const Form = styled.form`
       border-color: var(--red);
     }
   }
-  button,
   input[type='submit'] {
     width: auto;
     background: red;

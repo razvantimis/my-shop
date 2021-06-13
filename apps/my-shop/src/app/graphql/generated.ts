@@ -238,6 +238,7 @@ export type Mutation = {
   authenticateUserWithPassword: UserAuthenticationWithPasswordResult;
   createInitialUser: UserAuthenticationWithPasswordSuccess;
   addToCart?: Maybe<CartItem>;
+  checkout?: Maybe<Scalars['Boolean']>;
   endSession: Scalars['Boolean'];
 };
 
@@ -807,6 +808,14 @@ export type AddToCartMutation = (
   )> }
 );
 
+export type CheckoutMutationVariables = Exact<{ [key: string]: never; }>;
+
+
+export type CheckoutMutation = (
+  { __typename?: 'Mutation' }
+  & Pick<Mutation, 'checkout'>
+);
+
 export type SignInMutationVariables = Exact<{
   email: Scalars['String'];
   password: Scalars['String'];
@@ -915,6 +924,49 @@ export function useAddToCartMutation(baseOptions?: Apollo.MutationHookOptions<Ad
 export type AddToCartMutationHookResult = ReturnType<typeof useAddToCartMutation>;
 export type AddToCartMutationResult = Apollo.MutationResult<AddToCartMutation>;
 export type AddToCartMutationOptions = Apollo.BaseMutationOptions<AddToCartMutation, AddToCartMutationVariables>;
+export const CheckoutDocument = gql`
+    mutation Checkout {
+  checkout
+}
+    `;
+export type CheckoutMutationFn = Apollo.MutationFunction<CheckoutMutation, CheckoutMutationVariables>;
+export type CheckoutProps<TChildProps = {}, TDataName extends string = 'mutate'> = {
+      [key in TDataName]: Apollo.MutationFunction<CheckoutMutation, CheckoutMutationVariables>
+    } & TChildProps;
+export function withCheckout<TProps, TChildProps = {}, TDataName extends string = 'mutate'>(operationOptions?: ApolloReactHoc.OperationOption<
+  TProps,
+  CheckoutMutation,
+  CheckoutMutationVariables,
+  CheckoutProps<TChildProps, TDataName>>) {
+    return ApolloReactHoc.withMutation<TProps, CheckoutMutation, CheckoutMutationVariables, CheckoutProps<TChildProps, TDataName>>(CheckoutDocument, {
+      alias: 'checkout',
+      ...operationOptions
+    });
+};
+
+/**
+ * __useCheckoutMutation__
+ *
+ * To run a mutation, you first call `useCheckoutMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCheckoutMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [checkoutMutation, { data, loading, error }] = useCheckoutMutation({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useCheckoutMutation(baseOptions?: Apollo.MutationHookOptions<CheckoutMutation, CheckoutMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<CheckoutMutation, CheckoutMutationVariables>(CheckoutDocument, options);
+      }
+export type CheckoutMutationHookResult = ReturnType<typeof useCheckoutMutation>;
+export type CheckoutMutationResult = Apollo.MutationResult<CheckoutMutation>;
+export type CheckoutMutationOptions = Apollo.BaseMutationOptions<CheckoutMutation, CheckoutMutationVariables>;
 export const SignInDocument = gql`
     mutation SignIn($email: String!, $password: String!) {
   authenticateUserWithPassword(email: $email, password: $password) {

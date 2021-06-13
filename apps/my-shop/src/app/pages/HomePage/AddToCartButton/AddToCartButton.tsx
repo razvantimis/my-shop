@@ -1,6 +1,6 @@
 import React, { FC } from "react";
+import RedButton from "../../../components/style/RedButton.style";
 import { CurrentUserDocument, useAddToCartMutation } from "../../../graphql/generated";
-import { ButtonStyle } from "./AddToCartButton.style";
 
 type Props = {
   id: string;
@@ -12,9 +12,9 @@ const AddToCartButton: FC<Props> = ({ id }) => {
   });
 
   return (
-    <ButtonStyle disabled={loading} type="button" onClick={() => addToCart()}>
+    <RedButton disabled={loading} type="button" onClick={() => addToCart()}>
       Add{loading && 'ing'} To Cart
-    </ButtonStyle>
+    </RedButton>
   )
 }
 
