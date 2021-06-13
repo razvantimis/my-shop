@@ -1,3 +1,4 @@
+
 export const products = [
   {
     name: 'Apple iPad Pro 11" (2020), 256GB, Wi-Fi, Silver',
@@ -24,5 +25,10 @@ export const users = [
     name: "Razvan",
     email: 'r@timis.dev',
     password: '12345678'
+  },
+  {
+    name: 'Bob',
+    email: 'bob@bob.com',
+    password: '12345678',
   }
 ]

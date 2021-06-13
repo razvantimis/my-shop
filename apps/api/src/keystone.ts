@@ -31,23 +31,32 @@ const { withAuth } = createAuth({
 const session = statelessSessions({
   maxAge: sessionMaxAge,
   secret: sessionSecret,
+  secure: false,
 });
-console.log(process.env.FRONTEND_URL);
 
 export default withAuth(
   config({
     db: {
       adapter: 'prisma_postgresql',
-      url: process.env.DATABASE_URL || 'postgres://alljxbmajmuhoz:2cc78ba5cbf03a67cc825e1811f61cc68ec71d10d208d33d2a92b238bc7c55b2@ec2-99-80-200-225.eu-west-1.compute.amazonaws.com:5432/d1vl7hvuhksspe',
+      url: process.env.DATABASE_URL,
       onConnect: async (context) => {
-        // await context.db.lists.product.createMany({ data: products.map(p => ({ data: p })) });
-        // await context.db.lists.user.createMany({ data: users.map(p => ({ data: p })) });
+        try {
+          if (await context.lists.Product.count() === 0) {
+            await context.lists.Product.createMany({ data: products.map(p => ({ data: p })) });
+          }
+          if (await context.lists.User.count() === 0) {
+            await context.lists.User.createMany({ data: users.map(p => ({ data: p })) });
+          }
+        } catch (err) {
+          console.log(err)
+        }
       }
     },
     server: {
       cors: {
         origin: [process.env.FRONTEND_URL],
         credentials: true,
+
       },
     },
     ui: {
