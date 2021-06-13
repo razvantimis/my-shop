@@ -1,6 +1,7 @@
 FROM node:lts-alpine
 WORKDIR /usr/app/client
 
+COPY package.json .
 RUN npm install
 COPY . /usr/app/client
 

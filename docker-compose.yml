@@ -13,7 +13,7 @@ services:
       DATABASE_URL: postgres://myshop@postgres/shop
       FRONTEND_URL: http://localhost:4200
   client:
-    build: ./apps/my-shop
+    build: .
     volumes:
       - .:/usr/app/client
       - /usr/app/client/node_modules

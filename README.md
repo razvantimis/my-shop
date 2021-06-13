@@ -1,4 +1,6 @@
 # MyShop
 
-Backend start: npm run start-be
-Frontend start: npm run start-fe
+Steps:
+
+1. Run `docker-compose up -d` in main directory
+2. Open http://localhost:4200 . Demo user => email: r@timis.dev, pass: 12345678
