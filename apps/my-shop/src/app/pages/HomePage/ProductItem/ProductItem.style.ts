@@ -1,12 +1,13 @@
 import styled from "styled-components";
 
 
-export const ProductStyles = styled.div`
+export const ProductStyle = styled.div`
   background: white;
   box-shadow: var(--product-shadow);
   position: relative;
   display: flex;
   flex-direction: column;
+  justify-content: space-evenly;
   img {
     width: 100%;
     height: 400px;
