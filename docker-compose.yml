@@ -1,0 +1,29 @@
+version: '3'
+services:
+  api:
+    build: ./apps/api
+    volumes:
+      - .:/usr/app/api/
+      - /usr/app/api/node_modules
+    ports:
+      - '3000:3000'
+    depends_on:
+      - postgres
+    environment:
+      DATABASE_URL: postgres://myshop@postgres/shop
+      FRONTEND_URL: http://localhost:4200
+  client:
+    build: ./apps/my-shop
+    volumes:
+      - .:/usr/app/client
+      - /usr/app/client/node_modules
+    ports:
+      - '4200:4200'
+    depends_on:
+      - postgres
+      - api
+  postgres:
+    image: postgres:9.6.2-alpine
+    environment:
+      POSTGRES_USER: myshop
+      POSTGRES_DB: shop
