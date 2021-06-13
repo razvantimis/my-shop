@@ -2,7 +2,7 @@ import React, { FC } from "react";
 import RedButton from "../../components/style/RedButton.style";
 import { CurrentUserDocument, useCheckoutMutation } from "../../graphql/generated";
 import useCurrentUser from "../../hooks/useCurrentUser";
-import calcTotalPrice from "../../utils/calcTotalPrice";
+import { useCartState } from "../../state/CartState";
 import formatMoney from "../../utils/formatMoney";
 import CartItem from "./CartItem";
 
@@ -13,6 +13,7 @@ const CartPage: FC = () => {
   const [checkout] = useCheckoutMutation({
     refetchQueries: [{ query: CurrentUserDocument }],
   });
+  const { total } = useCartState();
 
   const handlePayment = async () => {
     console.log('payment')
@@ -30,7 +31,7 @@ const CartPage: FC = () => {
         ))}
       </ul>
       <footer>
-        <RedButton type="button" onClick={handlePayment}>Pay {formatMoney(calcTotalPrice(user!.cart))}</RedButton>
+        <RedButton type="button" onClick={handlePayment}>Pay {formatMoney(total)}</RedButton>
       </footer>
     </section>
   )

@@ -20,7 +20,7 @@ const ProductItem: FC<Props> = ({ product, isAuth }) => (
     </Title>
     <Price>{formatMoney(product.price ?? 0)}</Price>
     <p>{product.description}</p>
-    {isAuth && <AddToCartButton id={product.id} />}
+    {isAuth && <AddToCartButton id={product.id} price={product.price!} />}
   </ProductStyle>
 )
 export default ProductItem;

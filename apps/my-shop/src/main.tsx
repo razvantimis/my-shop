@@ -3,6 +3,7 @@ import React, { StrictMode } from 'react';
 import * as ReactDOM from 'react-dom';
 
 import App from './app/app';
+import { CartStateProvider } from './app/state/CartState';
 
 const client = new ApolloClient({
   uri: '/graphql',
@@ -13,7 +14,9 @@ const client = new ApolloClient({
 ReactDOM.render(
   <StrictMode>
     <ApolloProvider client={client}>
-      <App />
+      <CartStateProvider>
+        <App />
+      </CartStateProvider>
     </ApolloProvider>
   </StrictMode>,
   document.getElementById('root')
