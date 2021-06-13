@@ -5,7 +5,6 @@ import { Form } from "./LoginPage.style";
 
 
 const LoginPage: FC = () => {
-
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const history = useHistory();
@@ -16,13 +15,12 @@ const LoginPage: FC = () => {
 
   const handleSubmit: React.FormEventHandler<HTMLFormElement> = async (e) => {
     e.preventDefault();
-    const result = await signIn({
+    await signIn({
       variables: {
         email,
         password
       }
     });
-    console.log(result);
     setEmail('');
     setPassword('');
     history.push('/');
