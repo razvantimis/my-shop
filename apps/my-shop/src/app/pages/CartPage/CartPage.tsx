@@ -13,10 +13,11 @@ const CartPage: FC = () => {
   const [checkout] = useCheckoutMutation({
     refetchQueries: [{ query: CurrentUserDocument }],
   });
-  const { total } = useCartState();
+  const { total, checkout: checkoutLocal } = useCartState();
 
   const handlePayment = async () => {
     console.log('payment')
+    checkoutLocal()
     await checkout();
   }
 

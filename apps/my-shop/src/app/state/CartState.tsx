@@ -4,10 +4,15 @@ import React, { FC, createContext, useState, useContext } from "react";
 type Context = {
   total: number;
   addToCart: (id: string, price: number) => void;
+  checkout: () => void;
 }
 
 
-const CartContext = createContext<Context>({ total: 0, addToCart: () => undefined })
+const CartContext = createContext<Context>({
+  total: 0,
+  addToCart: () => undefined,
+  checkout: () => undefined,
+})
 const Provider = CartContext.Provider;
 
 type CartList = {
@@ -21,6 +26,11 @@ const CartStateProvider: FC = ({ children }) => {
 
   const [total, setTotal] = useState(0);
   const [cartList, setCartList] = useState<CartList>({});
+
+  const checkout = () => {
+    setTotal(0);
+    setCartList({});
+  }
 
   const addToCart = (id: string, price: number) => {
     if (cartList[id]) {
@@ -46,7 +56,8 @@ const CartStateProvider: FC = ({ children }) => {
     <Provider
       value={{
         total,
-        addToCart
+        addToCart,
+        checkout,
       }}
     >
       {children}
