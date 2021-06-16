@@ -1,4 +1,5 @@
 import React, { FC, createContext, useState, useContext } from "react";
+import { CurrentUserDocument, useCheckoutMutation } from "../graphql/generated";
 
 
 type Context = {
@@ -26,8 +27,12 @@ const CartStateProvider: FC = ({ children }) => {
 
   const [total, setTotal] = useState(0);
   const [cartList, setCartList] = useState<CartList>({});
+  const [checkoutBE] = useCheckoutMutation({
+    refetchQueries: [{ query: CurrentUserDocument }],
+  });
 
-  const checkout = () => {
+  const checkout = async () => {
+    await checkoutBE();
     setTotal(0);
     setCartList({});
   }

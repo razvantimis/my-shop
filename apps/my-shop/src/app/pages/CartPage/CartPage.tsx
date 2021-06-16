@@ -10,15 +10,10 @@ import CartItem from "./CartItem";
 
 const CartPage: FC = () => {
   const user = useCurrentUser();
-  const [checkout] = useCheckoutMutation({
-    refetchQueries: [{ query: CurrentUserDocument }],
-  });
-  const { total, checkout: checkoutLocal } = useCartState();
+  const { total, checkout } = useCartState();
 
   const handlePayment = async () => {
-    console.log('payment')
-    checkoutLocal()
-    await checkout();
+    checkout()
   }
 
   return (
