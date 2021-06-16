@@ -1,12 +1,9 @@
 import React, { FC } from "react";
 import RedButton from "../../components/style/RedButton.style";
-import { CurrentUserDocument, useCheckoutMutation } from "../../graphql/generated";
 import useCurrentUser from "../../hooks/useCurrentUser";
 import { useCartState } from "../../state/CartState";
 import formatMoney from "../../utils/formatMoney";
 import CartItem from "./CartItem";
-
-
 
 const CartPage: FC = () => {
   const user = useCurrentUser();
