@@ -4,6 +4,7 @@ import { CurrentUserDocument, useCheckoutMutation } from "../graphql/generated";
 
 type Context = {
   total: number;
+  isLoading: boolean,
   addToCart: (id: string, price: number) => void;
   checkout: () => void;
 }
@@ -11,6 +12,7 @@ type Context = {
 
 const CartContext = createContext<Context>({
   total: 0,
+  isLoading: false,
   addToCart: () => undefined,
   checkout: () => undefined,
 })
@@ -26,15 +28,23 @@ type CartList = {
 const CartStateProvider: FC = ({ children }) => {
 
   const [total, setTotal] = useState(0);
+  const [isLoading, setIsLoading] = useState(false);
   const [cartList, setCartList] = useState<CartList>({});
   const [checkoutBE] = useCheckoutMutation({
     refetchQueries: [{ query: CurrentUserDocument }],
   });
 
   const checkout = async () => {
-    await checkoutBE();
-    setTotal(0);
-    setCartList({});
+    try {
+      setIsLoading(true)
+      await checkoutBE();
+      setTotal(0);
+      setCartList({});
+    } catch (e) {
+      console.log(e)
+    } finally {
+      setIsLoading(false)
+    }
   }
 
   const addToCart = (id: string, price: number) => {
@@ -60,6 +70,7 @@ const CartStateProvider: FC = ({ children }) => {
   return (
     <Provider
       value={{
+        isLoading,
         total,
         addToCart,
         checkout,
