@@ -5,6 +5,7 @@ import { CurrentUserDocument, useCheckoutMutation } from "../graphql/generated";
 type Context = {
   total: number;
   isLoading: boolean,
+  length: number,
   addToCart: (id: string, price: number) => void;
   checkout: () => void;
 }
@@ -12,6 +13,7 @@ type Context = {
 
 const CartContext = createContext<Context>({
   total: 0,
+  length: 0,
   isLoading: false,
   addToCart: () => undefined,
   checkout: () => undefined,
@@ -74,6 +76,7 @@ const CartStateProvider: FC = ({ children }) => {
         total,
         addToCart,
         checkout,
+        length: Object.values(cartList).length
       }}
     >
       {children}

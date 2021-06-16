@@ -1,4 +1,5 @@
 import React, { FC } from "react";
+import { useHistory } from "react-router";
 import RedButton from "../../components/style/RedButton.style";
 import useCurrentUser from "../../hooks/useCurrentUser";
 import { useCartState } from "../../state/CartState";
@@ -8,9 +9,12 @@ import CartItem from "./CartItem";
 const CartPage: FC = () => {
   const user = useCurrentUser();
   const { total, checkout, isLoading } = useCartState();
+  const history = useHistory();
 
   const handlePayment = async () => {
-    checkout()
+
+    checkout();
+    history.push('/confirm-payment');
   }
 
   return (
@@ -25,7 +29,7 @@ const CartPage: FC = () => {
         ))}
       </ul>
       <footer>
-        <RedButton type="button" onClick={handlePayment} disabled={isLoading}>Pay {formatMoney(total)}</RedButton>
+        <RedButton type="button" onClick={handlePayment} disabled={isLoading || user?.cart?.length === 0}>Pay {formatMoney(total)}</RedButton>
       </footer>
     </section>
   )
